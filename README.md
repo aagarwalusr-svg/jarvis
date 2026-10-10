@@ -2,6 +2,10 @@
 
 A working first stage for a personal assistant: a dark-blue neon dashboard, animated Three.js holographic core, FastAPI API, PostgreSQL persistence, and real-time WebSocket chat. No AI credentials are included.
 
+## Use with Claude Code
+
+Open this repository in Claude Code and run `/jarvis-start`. Root `CLAUDE.md` supplies architecture, startup, secret-handling, and validation instructions. See [the Claude Code handoff](docs/CLAUDE_HANDOFF.md) for the exact clone command and prompt. Run `/jarvis-check` for validation. Claude Code runs the app on its host; the regular Claude chat window cannot host the Python/PostgreSQL application.
+
 ## What works
 
 - Chat using Groq (default), OpenAI, Anthropic Claude, or Gemini; select provider/model in Settings.
