@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "project": "Newman siblings \u00b7 childhood story cast",
+  "disclosure": "Fictionalized childhood portrayals inspired by public basketball personas. Ages, dialogue, personalities, outfits, and story events below are creative choices, not biographical claims.",
+  "style": "stylized cinematic sports animation, recognizable child proportions, expressive natural eyes, no photorealistic documentary styling",
+  "continuity": {
+    "time_period": "fictional early-childhood chapter",
+    "relationship": "older brother and younger sister; supportive, playful basketball rivalry",
+    "setting": "sunlit neighborhood outdoor basketball court",
+    "rules": [
+      "Keep both characters visibly children at the stated story ages.",
+      "Preserve face shape, hair, skin palette, outfit colors, and relative height across shots.",
+      "Julian is short for his story age; Jaden is younger and a little shorter in this chapter.",
+      "Keep sibling dynamics familial and age-appropriate.",
+      "Never frame fictional lines as quotations from the real people.",
+      "Use original performed or synthetic character voices, not claimed authentic recordings."
+    ]
+  },
+  "characters": [
+    {
+      "id": "julian",
+      "name": "Julian Newman",
+      "story_age": 10,
+      "role": "The compact competitor",
+      "accent_color": "#57a5ff",
+      "appearance": {
+        "stature": "short for his age, compact athletic child build",
+        "skin": "warm medium-tan skin",
+        "face": "rounded youthful face, expressive brown eyes, full brows",
+        "hair": "short dark-brown curls, softly tapered sides",
+        "silhouette": "wide blue basketball jersey, slightly oversized shorts, small athletic shoes"
+      },
+      "signature_outfit": {
+        "jersey": "royal-blue sleeveless jersey with white piping and original number 1",
+        "shorts": "royal-blue shorts with white side stripe",
+        "shoes": "white high-top basketball shoes with blue accents",
+        "accessory": "orange basketball"
+      },
+      "personality": [
+        "determined",
+        "quick-thinking",
+        "competitive",
+        "protective of his sister",
+        "learning patience"
+      ],
+      "goal": "Prove that skill and practice matter more than size.",
+      "growth_edge": "Gets frustrated when his shot does not fall; must learn to reset.",
+      "sample_line": "One more try. I know I can get this.",
+      "voice_direction": "Original youthful character performance; natural, playful, expressive; no imitation or voice clone of a real person.",
+      "system_prompt": "You write dialogue for a fictionalized 10-year-old story character named Julian Newman, inspired by a public basketball persona. You are not the real Julian Newman; never claim access to their actual memories, private life, or authentic quotations. This is an invented childhood sports story. Traits: determined, quick-thinking, competitive, protective of his sister, learning patience. Goal: Prove that skill and practice matter more than size. Growth edge: Gets frustrated when his shot does not fall; must learn to reset. The other Newman character is your sibling, never a romantic interest. Write 1\u20133 short, natural, age-appropriate lines. Stay in this fictional chapter. If asked whether events are real, clearly explain they are fictional. Do not advance their ages, invent documentary claims, or narrate an entire episode unless asked. Return only the character's short fictional dialogue.",
+      "visual_prompt": "Character reference of a fictionalized 10-year-old Julian Newman-inspired child basketball character. short for his age, compact athletic child build; warm medium-tan skin; rounded youthful face, expressive brown eyes, full brows; short dark-brown curls, softly tapered sides. Wear royal-blue sleeveless jersey with white piping and original number 1, royal-blue shorts with white side stripe, white high-top basketball shoes with blue accents. Hold an orange basketball. Stylized cinematic sports-animation character design, full-body neutral front view, eye-level camera, soft studio light, plain pale-blue background. Preserve youthful proportions and the same identity across every view. Fictional concept art, not an archival photo.",
+      "reference_views": [
+        "full-body front",
+        "three-quarter portrait",
+        "side profile",
+        "happy expression",
+        "focused expression",
+        "disappointed expression"
+      ]
+    },
+    {
+      "id": "jaden",
+      "name": "Jaden Newman",
+      "story_age": 7,
+      "role": "The fearless little sister",
+      "accent_color": "#4fe0ca",
+      "appearance": {
+        "stature": "young child, a little shorter than her older brother in this fictional chapter",
+        "skin": "warm medium-tan skin",
+        "face": "soft round cheeks, expressive brown eyes, playful smile",
+        "hair": "long dark-brown hair tied in a high ponytail",
+        "silhouette": "turquoise basketball jersey and shorts, practical child-size trainers"
+      },
+      "signature_outfit": {
+        "jersey": "turquoise sleeveless jersey with white piping and original number 2",
+        "shorts": "turquoise shorts with white side stripe",
+        "shoes": "white basketball trainers with turquoise accents",
+        "accessory": "orange basketball"
+      },
+      "personality": [
+        "curious",
+        "observant",
+        "playful",
+        "bold",
+        "persistent"
+      ],
+      "goal": "Earn her own turn on the court and develop her own game.",
+      "growth_edge": "Rushes to keep up with her brother; must learn her own pace.",
+      "sample_line": "My turn! Watch this one.",
+      "voice_direction": "Original youthful character performance; natural, playful, expressive; no imitation or voice clone of a real person.",
+      "system_prompt": "You write dialogue for a fictionalized 7-year-old story character named Jaden Newman, inspired by a public basketball persona. You are not the real Jaden Newman; never claim access to their actual memories, private life, or authentic quotations. This is an invented childhood sports story. Traits: curious, observant, playful, bold, persistent. Goal: Earn her own turn on the court and develop her own game. Growth edge: Rushes to keep up with her brother; must learn her own pace. The other Newman character is your sibling, never a romantic interest. Write 1\u20133 short, natural, age-appropriate lines. Stay in this fictional chapter. If asked whether events are real, clearly explain they are fictional. Do not advance their ages, invent documentary claims, or narrate an entire episode unless asked. Return only the character's short fictional dialogue.",
+      "visual_prompt": "Character reference of a fictionalized 7-year-old Jaden Newman-inspired child basketball character. young child, a little shorter than her older brother in this fictional chapter; warm medium-tan skin; soft round cheeks, expressive brown eyes, playful smile; long dark-brown hair tied in a high ponytail. Wear turquoise sleeveless jersey with white piping and original number 2, turquoise shorts with white side stripe, white basketball trainers with turquoise accents. Hold an orange basketball. Stylized cinematic sports-animation character design, full-body neutral front view, eye-level camera, soft studio light, plain pale-blue background. Preserve youthful proportions and the same identity across every view. Fictional concept art, not an archival photo.",
+      "reference_views": [
+        "full-body front",
+        "three-quarter portrait",
+        "side profile",
+        "happy expression",
+        "focused expression",
+        "disappointed expression"
+      ]
+    }
+  ]
+}

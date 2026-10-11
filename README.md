@@ -147,3 +147,9 @@ compose.yaml                  PostgreSQL development service
 ```
 
 Next stages: incremental schema migrations, streamed tokens, scoped agent tools with approval and audit records, desktop shell integration, then separately authorized calendar/email integrations. Never give the model unrestricted shell access.
+
+## Childhood persona studio
+
+Open `/personas` after starting the app, or choose **Character studio** in the sidebar. The first cast contains fictionalized Julian and Jaden Newman childhood characters, with editable source profiles in `shared/personas.json`. Story ages 10 and 7, outfit numbers, personality details, sample dialogue, and settings are creative choices, not documented biography.
+
+The studio includes original SVG visual drafts, expression/profile controls, individual/full-cast JSON export, SVG export, and reference image prompts. Exported system prompts can be used as character context in Claude or another model. The authenticated `/api/personas/{id}/preview` endpoint generates one-turn fictional dialogue using the selected backend AI provider; it requires that provider's configured key and does not save the preview. Actual generated image reference packs and video episodes have not been produced. No real-person voice cloning is included.

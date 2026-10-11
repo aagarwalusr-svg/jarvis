@@ -175,3 +175,63 @@ def test_fish_audio_missing_key_is_actionable(client, monkeypatch):
     response = client.post("/api/voice/speak", json={"content": "Hello"})
     assert response.status_code == 502
     assert "FISH_API_KEY" in response.json()["detail"]
+
+
+def test_persona_preview_uses_canonical_character_instructions(client, monkeypatch):
+    captured = {}
+
+    async def fake_generate(provider, model, messages, memories, system_prompt):
+        captured.update(provider=provider, messages=messages, system_prompt=system_prompt)
+        return "My turn! Watch this one."
+
+    monkeypatch.setattr(main, "generate", fake_generate)
+    cast = client.get("/api/personas").json()
+    assert [p["name"] for p in cast["characters"]] == ["Julian Newman", "Jaden Newman"]
+    response = client.post(
+        "/api/personas/jaden/preview", json={"content": "A friendly contest", "provider": "groq"}
+    )
+    assert response.json() == {
+        "character": "Jaden Newman",
+        "reply": "My turn! Watch this one.",
+        "fictional": True,
+    }
+    assert captured["system_prompt"] == cast["characters"][1]["system_prompt"]
+    assert captured["messages"] == [{"role": "user", "content": "A friendly contest"}]
+    assert client.post("/api/personas/missing/preview", json={"content": "Hi"}).status_code == 404
+
+
+@pytest.mark.parametrize("provider", ["groq", "claude"])
+def test_custom_persona_system_reaches_upstream(provider, monkeypatch):
+    import asyncio
+    import json
+
+    import httpx
+
+    monkeypatch.setattr(settings, providers.PROVIDERS[provider]["key"], "test-key")
+    original = httpx.AsyncClient
+
+    def handle(request):
+        body = json.loads(request.content)
+        if provider == "claude":
+            assert body["system"] == "Fictional character context"
+            return httpx.Response(200, json={"content": [{"type": "text", "text": "My turn!"}]})
+        assert body["messages"][0] == {"role": "system", "content": "Fictional character context"}
+        return httpx.Response(200, json={"choices": [{"message": {"content": "My turn!"}}]})
+
+    monkeypatch.setattr(
+        providers.httpx,
+        "AsyncClient",
+        lambda **kwargs: original(transport=httpx.MockTransport(handle), **kwargs),
+    )
+    assert (
+        asyncio.run(
+            providers.generate(
+                provider,
+                "",
+                [{"role": "user", "content": "Hi"}],
+                [],
+                system_prompt="Fictional character context",
+            )
+        )
+        == "My turn!"
+    )

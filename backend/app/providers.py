@@ -25,7 +25,13 @@ class ProviderError(Exception):
     pass
 
 
-async def generate(provider: str, model: str, messages: list[dict], memories: list[str]) -> str:
+async def generate(
+    provider: str,
+    model: str,
+    messages: list[dict],
+    memories: list[str],
+    system_prompt: str = SYSTEM,
+) -> str:
     spec = PROVIDERS.get(provider)
     if not spec:
         raise ProviderError("Unknown AI provider.")
@@ -34,7 +40,7 @@ async def generate(provider: str, model: str, messages: list[dict], memories: li
         raise ProviderError(
             f"{spec['label']} API key is missing. Configure it on the backend and restart."
         )
-    history = [{"role": "system", "content": SYSTEM}]
+    history = [{"role": "system", "content": system_prompt}]
     if memories:
         history.append(
             {"role": "user", "content": "Saved reference notes:\n" + "\n".join(memories)}
@@ -54,7 +60,7 @@ async def generate(provider: str, model: str, messages: list[dict], memories: li
                     headers={"x-api-key": key, "anthropic-version": "2023-06-01"},
                     json={
                         "model": model,
-                        "system": SYSTEM,
+                        "system": system_prompt,
                         "messages": history[1:],
                         "max_tokens": 2048,
                     },

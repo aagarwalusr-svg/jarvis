@@ -12,6 +12,7 @@ from sqlalchemy import delete, select, text
 
 from .config import settings
 from .db import Base, Conversation, Memory, Message, Session, Task, engine
+from .personas import CAST, PERSONAS
 from .providers import PROVIDERS, ProviderError, generate
 from .speech import synthesize
 
@@ -75,6 +76,29 @@ async def health():
     async with Session() as session:
         await session.execute(text("SELECT 1"))
     return {"status": "ok", "database": "connected"}
+
+
+@app.get("/api/personas", dependencies=protected)
+async def persona_cast():
+    return CAST
+
+
+@app.post("/api/personas/{persona_id}/preview", dependencies=protected)
+async def preview_persona(persona_id: str, data: ChatInput):
+    character = PERSONAS.get(persona_id)
+    if not character:
+        raise HTTPException(404, "Character not found")
+    try:
+        reply = await generate(
+            data.provider,
+            data.model,
+            [{"role": "user", "content": data.content}],
+            [],
+            system_prompt=character["system_prompt"],
+        )
+    except ProviderError as exc:
+        raise HTTPException(502, str(exc)) from exc
+    return {"character": character["name"], "reply": reply, "fictional": True}
 
 
 @app.get("/api/providers", dependencies=protected)

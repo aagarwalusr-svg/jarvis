@@ -439,6 +439,10 @@ export default function Dashboard() {
                 )}
             </button>
           ))}
+          <a href="/personas" className="nav-item">
+            <Sparkles size={18} />
+            <span>Character studio</span>
+          </a>
         </nav>
         <div className="sidebar-label history-label">
           CONVERSATIONS{" "}
