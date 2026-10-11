@@ -1,7 +1,7 @@
 import asyncio
 import hmac
 from contextlib import asynccontextmanager
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.encoders import jsonable_encoder
@@ -12,7 +12,7 @@ from sqlalchemy import delete, select, text
 
 from .config import settings
 from .db import Base, Conversation, Memory, Message, Session, Task, engine
-from .providers import PROVIDERS, ProviderError, generate
+from .providers import PROVIDERS, ProviderError, default_model, generate, generate_auto
 from .speech import synthesize
 
 
@@ -61,6 +61,7 @@ class TaskUpdate(BaseModel):
 
 class ChatInput(Content):
     provider: str = "openai"
+    task: Literal["auto", "coding", "analysis", "research", "conversation"] = "auto"
     model: str = Field(default="", max_length=120)
 
 
@@ -81,9 +82,16 @@ async def health():
 async def providers():
     return [
         {
+            "id": "auto",
+            "label": "Auto · task routing",
+            "model": "",
+            "configured": any(getattr(settings, p["key"]) for p in PROVIDERS.values()),
+        }
+    ] + [
+        {
             "id": name,
             "label": spec["label"],
-            "model": spec["model"],
+            "model": default_model(name),
             "configured": bool(getattr(settings, spec["key"])),
         }
         for name, spec in PROVIDERS.items()
@@ -242,7 +250,7 @@ async def chat(socket: WebSocket, conversation_id: str):
                     {"type": "error", "message": "Invalid message. Use 1–10000 characters."}
                 )
                 continue
-            if data.provider not in PROVIDERS:
+            if data.provider != "auto" and data.provider not in PROVIDERS:
                 await socket.send_json({"type": "error", "message": "Unknown AI provider"})
                 continue
             async with Session() as session:
@@ -273,7 +281,12 @@ async def chat(socket: WebSocket, conversation_id: str):
                 history = [{"role": m.role, "content": m.content} for m in reversed(recent)]
             await socket.send_json({"type": "thinking"})
             try:
-                answer = await generate(data.provider, data.model, history, notes)
+                if data.provider == "auto":
+                    result = await generate_auto(history, notes, data.task)
+                    answer = result.pop("answer")
+                    await socket.send_json({"type": "routing", **result})
+                else:
+                    answer = await generate(data.provider, data.model, history, notes)
             except ProviderError as exc:
                 await socket.send_json({"type": "error", "message": str(exc)})
                 continue

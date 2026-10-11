@@ -68,6 +68,7 @@ const navigation = [
   { id: "settings", label: "Settings", icon: Settings2 },
 ];
 const defaults: Provider[] = [
+  { id: "auto", label: "Auto · task routing", model: "", configured: false },
   { id: "openai", label: "OpenAI", model: "gpt-4.1-mini", configured: false },
   {
     id: "claude",
@@ -94,8 +95,9 @@ export default function Dashboard() {
   const [mobile, setMobile] = useState(false);
   const [online, setOnline] = useState(false);
   const [providers, setProviders] = useState(defaults);
-  const [provider, setProvider] = useState("groq");
-  const [model, setModel] = useState("llama-3.3-70b-versatile");
+  const [provider, setProvider] = useState("auto");
+  const [model, setModel] = useState("");
+  const [route, setRoute] = useState("");
   const [token, setToken] = useState("");
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [conversation, setConversation] = useState<string | null>(null);
@@ -307,6 +309,11 @@ export default function Dashboard() {
           if (data.message.role === "assistant" && voiceRef.current) {
             void speak(data.message.content);
           }
+        }
+        if (data.type === "routing") {
+          setRoute(
+            `${data.provider} · ${data.model} · ${data.task}${data.fallback_from?.length ? " · fallback" : ""}`,
+          );
         }
         if (data.type === "done" || data.type === "error") {
           sending.current = false;
@@ -623,7 +630,9 @@ export default function Dashboard() {
                       {configured ? "READY" : "KEY NEEDED"}
                     </span>
                   </strong>
-                  <small>{model}</small>
+                  <small>
+                    {provider === "auto" ? route || "Selected per task" : model}
+                  </small>
                 </div>
               </div>
               <div className="command-grid">
@@ -802,7 +811,9 @@ export default function Dashboard() {
                       <div className="composer-bottom">
                         <span>
                           <span className="model-dot" />
-                          {model}
+                          {provider === "auto"
+                            ? route || "Automatic routing"
+                            : model}
                         </span>
                         <div>
                           <button
@@ -909,6 +920,14 @@ export default function Dashboard() {
                   Choose a provider and model. API keys are read from the
                   backend environment and never sent to this browser.
                 </p>
+                <p>
+                  Auto prefers Claude for coding, OpenAI for analysis, Gemini
+                  for research questions, and Groq for conversation. It uses
+                  configured providers only. Research mode does not add live web
+                  search. On failure, context may be sent to another configured
+                  provider; set AUTO_FALLBACK=false on the backend to disable
+                  this.
+                </p>
                 <div className="provider-options">
                   {providers.map((p) => (
                     <button
@@ -932,6 +951,7 @@ export default function Dashboard() {
                 <label>
                   Model
                   <input
+                    disabled={provider === "auto"}
                     value={model}
                     onChange={(e) => {
                       setModel(e.target.value);

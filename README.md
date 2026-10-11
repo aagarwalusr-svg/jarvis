@@ -8,7 +8,7 @@ Open this repository in Claude Code and run `/jarvis-start`. Root `CLAUDE.md` su
 
 ## What works
 
-- Chat using Groq (default), OpenAI, Anthropic Claude, or Gemini; select provider/model in Settings.
+- Chat using Auto task routing (default), Groq, OpenAI, Anthropic Claude, or Gemini; select provider/model in Settings.
 - Conversation history persisted in PostgreSQL, with reopen and deletion controls.
 - Persistent tasks and memory notes. The latest 20 notes accompany future provider requests; the latest 40 messages provide chat context.
 - Browser microphone dictation, reviewed before sending; optional Fish Audio or browser speech synthesis for replies.
@@ -147,3 +147,22 @@ compose.yaml                  PostgreSQL development service
 ```
 
 Next stages: incremental schema migrations, streamed tokens, scoped agent tools with approval and audit records, desktop shell integration, then separately authorized calendar/email integrations. Never give the model unrestricted shell access.
+
+## Automatic provider routing
+
+Select **Auto · task routing** in Settings. Add any or all four API keys to the
+backend `.env` and restart FastAPI. Unconfigured providers are skipped. The
+server classifies the latest user message using keyword rules: coding prefers
+Claude, analysis prefers OpenAI, research questions prefer Gemini, and ordinary
+conversation prefers Groq. These are configurable model/policy preferences,
+not measured guarantees of which model is best. Research mode is text chat;
+it does not enable live web search or new tools.
+
+If the preferred configured provider fails, Auto tries each remaining configured
+provider once. Context and memory may therefore be sent to multiple providers.
+Set `AUTO_FALLBACK=false` to disable retries across providers. Manual selection
+never falls back. Auto ignores the manual model field and uses `OPENAI_MODEL`,
+`CLAUDE_MODEL`, `GEMINI_MODEL`, and `GROQ_MODEL` from the backend environment.
+The chat footer displays the successful provider, model, task, and fallback flag
+for the current session. API keys remain on the server. No keys or paid API
+access are supplied by a ChatGPT/Claude app subscription.
