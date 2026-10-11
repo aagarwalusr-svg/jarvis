@@ -40,7 +40,7 @@ async def generate(provider: str, model: str, messages: list[dict], memories: li
             {"role": "user", "content": "Saved reference notes:\n" + "\n".join(memories)}
         )
     history.extend(messages)
-    model = model or spec["model"]
+    model = model or default_model(provider)
     urls = {
         "openai": "https://api.openai.com/v1/chat/completions",
         "groq": "https://api.groq.com/openai/v1/chat/completions",
@@ -84,3 +84,59 @@ async def generate(provider: str, model: str, messages: list[dict], memories: li
         ) from exc
     except (KeyError, ValueError, TypeError) as exc:
         raise ProviderError("Unexpected response from AI provider.") from exc
+
+
+# Explicit policy preferences, not claims of measured model superiority.
+ROUTES = {
+    "coding": ("claude", "openai", "gemini", "groq"),
+    "analysis": ("openai", "claude", "gemini", "groq"),
+    "research": ("gemini", "claude", "openai", "groq"),
+    "conversation": ("groq", "openai", "gemini", "claude"),
+}
+
+
+def default_model(provider: str) -> str:
+    return getattr(settings, f"{provider}_model")
+
+
+def classify(messages: list[dict]) -> str:
+    import re
+
+    content = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
+    content = content.lower()
+    patterns = {
+        "coding": r"\b(code|coding|debug|python|typescript|javascript|bug|refactor|programming)\b",
+        "research": r"\b(research|sources|news|latest|citations|look up)\b",
+        "analysis": r"\b(analyze|analyse|compare|calculate|solve|math|reasoning|proof)\b",
+    }
+    return next(
+        (task for task, pattern in patterns.items() if re.search(pattern, content)), "conversation"
+    )
+
+
+async def generate_auto(messages: list[dict], memories: list[str], task: str = "auto") -> dict:
+    task = classify(messages) if task == "auto" else task
+    candidates = [p for p in ROUTES[task] if getattr(settings, PROVIDERS[p]["key"])]
+    if not candidates:
+        raise ProviderError(
+            "No AI providers configured. Add at least one backend API key and restart."
+        )
+    if not settings.auto_fallback:
+        candidates = candidates[:1]
+    failed = []
+    for provider in candidates:
+        model = default_model(provider)
+        try:
+            answer = await generate(provider, model, messages, memories)
+            return {
+                "answer": answer,
+                "provider": provider,
+                "model": model,
+                "task": task,
+                "fallback_from": failed,
+            }
+        except ProviderError:
+            failed.append(provider)
+    raise ProviderError(
+        "Configured AI providers failed. Check their keys, model IDs, quotas, and network."
+    )

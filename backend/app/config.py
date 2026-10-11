@@ -10,6 +10,11 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     gemini_api_key: str = ""
     groq_api_key: str = ""
+    openai_model: str = "gpt-4.1-mini"
+    claude_model: str = "claude-sonnet-4-6"
+    gemini_model: str = "gemini-2.5-flash"
+    groq_model: str = "llama-3.3-70b-versatile"
+    auto_fallback: bool = True
     fish_api_key: str = ""
     fish_voice_id: str = ""
     fish_model: str = "s2.1-pro"
