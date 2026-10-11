@@ -1,0 +1,26 @@
+[
+  {
+    "shot": 1,
+    "target_seconds": 5,
+    "positive": "Photorealistic real neighborhood basketball court at sunset, realistic clothing and shadows. Two fictional child-sized athletic humanoids with textured orange basketball heads and subtle expressive facial features. Compact older brother in blue number 1 jersey, smaller younger sister in turquoise number 2 jersey. Separate regulation basketball used for play. Handheld shoulder-height camera tracks sideways alongside brother dribbling while sister guards him.",
+    "negative": "static camera, cartoon background, flat illustration, floating ball, duplicate balls, head detaching, extra limbs, distorted hands, unreadable text, logos",
+    "speaker": "Brother",
+    "dialogue": "One day, I'm making it to the NBA."
+  },
+  {
+    "shot": 2,
+    "target_seconds": 5,
+    "positive": "Photorealistic real neighborhood basketball court at sunset, realistic clothing and shadows. Two fictional child-sized athletic humanoids with textured orange basketball heads and subtle expressive facial features. Compact older brother in blue number 1 jersey, smaller younger sister in turquoise number 2 jersey. Separate regulation basketball used for play. Player-height camera follows a simple short bounce pass from brother to sister, realistic depth and body movement.",
+    "negative": "static camera, cartoon background, flat illustration, floating ball, duplicate balls, head detaching, extra limbs, distorted hands, unreadable text, logos",
+    "speaker": "Sister",
+    "dialogue": "Me too\u2014but first, you gotta guard me!"
+  },
+  {
+    "shot": 3,
+    "target_seconds": 5,
+    "positive": "Photorealistic real neighborhood basketball court at sunset, realistic clothing and shadows. Two fictional child-sized athletic humanoids with textured orange basketball heads and subtle expressive facial features. Compact older brother in blue number 1 jersey, smaller younger sister in turquoise number 2 jersey. Separate regulation basketball used for play. Low player-height camera follows sister taking a set shot, gently tilting up with the basketball toward the hoop.",
+    "negative": "static camera, cartoon background, flat illustration, floating ball, duplicate balls, head detaching, extra limbs, distorted hands, unreadable text, logos",
+    "speaker": "Brother",
+    "dialogue": "All right. Show me what you got."
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "positive": [
+    {
+      "node": "REPLACE_WITH_REAL_NODE_ID",
+      "input": "text"
+    }
+  ],
+  "negative": [
+    {
+      "node": "REPLACE_WITH_REAL_NODE_ID",
+      "input": "text"
+    }
+  ],
+  "seed": [
+    {
+      "node": "REPLACE_WITH_REAL_NODE_ID",
+      "input": "noise_seed"
+    }
+  ]
+}
