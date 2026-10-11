@@ -1,0 +1,26 @@
+[
+  {
+    "start": 0.9,
+    "speaker": "Julian",
+    "text": "When I'm older, I'm making it to the NBA.",
+    "end": 3.31
+  },
+  {
+    "start": 4.7,
+    "speaker": "Jaden",
+    "text": "I'm going pro too. But first, you've gotta guard me!",
+    "end": 7.893
+  },
+  {
+    "start": 9.0,
+    "speaker": "Julian",
+    "text": "Deal. Big dreams start with one more shot.",
+    "end": 11.635
+  },
+  {
+    "start": 12.3,
+    "speaker": "Jaden",
+    "text": "Then watch this!",
+    "end": 13.499
+  }
+]
